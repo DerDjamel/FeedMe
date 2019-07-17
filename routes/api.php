@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->group(function () {
+    // these routes are protected by the api guard
+    
 });
+
+Route::get('/user', 'api\UserController@getUser');
+
