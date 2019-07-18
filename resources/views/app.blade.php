@@ -20,7 +20,13 @@
 </head>
 <body>
     <v-app id="app">
-        <router-view></router-view>
+        
+        <v-content>
+            <v-container>
+                <router-view></router-view>
+            </v-container>
+        </v-content>
+
     </v-app>
 </body>
 </html>
