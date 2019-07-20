@@ -16,4 +16,7 @@
 
 Route::get('/', 'AppController@index')->name('index');
 
+Route::get('/logout', 'AuthController@logout');
 Route::post('/login', 'AuthController@login');
+
+Route::post('/register', 'AuthController@register');

@@ -4,6 +4,9 @@
         <router-link :to="{ name : 'login' }">
             <v-btn>Login</v-btn>
         </router-link>
+        <router-link :to="{ name : 'register' }">
+            <v-btn>Register</v-btn>
+        </router-link>
     </div>
 </template>
 
