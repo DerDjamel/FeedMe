@@ -15,3 +15,5 @@
 //Auth::routes();
 
 Route::get('/', 'AppController@index')->name('index');
+
+Route::post('/login', 'AuthController@login');

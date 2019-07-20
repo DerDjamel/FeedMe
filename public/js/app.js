@@ -1860,6 +1860,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -1893,16 +1895,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      errors: {}
     };
   },
   methods: {
+    /* reset the form */
     reset: function reset() {
       this.$refs.loginForm.reset();
+    },
+    login: function login() {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/login', {
+        email: this.email,
+        password: this.password
+      }).then(function (_ref) {
+        var data = _ref.data;
+        console.log(data);
+
+        _this.$store.dispatch('loadUser', data);
+
+        _this.$router.push({
+          name: 'index'
+        });
+      })["catch"](function (err) {
+        console.log('for later');
+      });
     }
   }
 });
@@ -19581,7 +19605,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-flex",
-        { attrs: { xs12: "" } },
+        { attrs: { "my-2": "", "pa-2": "", xs6: "" } },
         [
           _c(
             "v-form",
@@ -19655,7 +19679,11 @@ var render = function() {
         "v-flex",
         { attrs: { xs12: "" } },
         [
-          _c("v-btn", { attrs: { color: "success" } }, [_vm._v("Log in")]),
+          _c(
+            "v-btn",
+            { attrs: { color: "success" }, on: { click: _vm.login } },
+            [_vm._v("Log in")]
+          ),
           _vm._v(" "),
           _c(
             "v-btn",
@@ -61637,16 +61665,29 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: {
-    user: ''
+    user: '',
+    auth: false
   },
 
   /* END of state */
   actions: {
     loadUser: function loadUser(_ref) {
       var commit = _ref.commit;
-      _api_user_js__WEBPACK_IMPORTED_MODULE_0__["default"].getUser().then(function (res) {
-        commit('setUser', res.data);
-      });
+      var user = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+      if (user == null) {
+        _api_user_js__WEBPACK_IMPORTED_MODULE_0__["default"].getUser().then(function (res) {
+          commit('setUser', res.data);
+        });
+      }
+
+      commit('setUser', user);
+      commit('setAuth', true);
+    },
+    logoutUser: function logoutUser(_ref2) {
+      var commit = _ref2.commit;
+      commit('setUser', {});
+      commit('setAuth', false);
     }
   },
 
@@ -61654,6 +61695,9 @@ __webpack_require__.r(__webpack_exports__);
   mutations: {
     setUser: function setUser(state, user) {
       state.user = user;
+    },
+    setAuth: function setAuth(state, authState) {
+      state.auth = authState;
     }
   },
 
@@ -61661,6 +61705,9 @@ __webpack_require__.r(__webpack_exports__);
   getters: {
     getUser: function getUser(state) {
       return state.user;
+    },
+    getAuth: function getAuth(state) {
+      return state.auth;
     }
   }
   /* End of getters */
