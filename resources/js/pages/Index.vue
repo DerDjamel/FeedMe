@@ -15,6 +15,7 @@
 
                 <v-card-actions>
                     <v-btn flat color="orange">read</v-btn>
+                    <v-btn flat color="blue" @click="updateRecipeDialog(recipe)">update</v-btn>
                     <v-btn flat color="red" @click="destroy(recipe.id)">delete</v-btn>
                 </v-card-actions>
             </v-card>
@@ -29,30 +30,80 @@
                 bottom
                 left
                 color="red"
-                @click="dialog = true"
+                @click.stop="dialog = true"
                 >
                     <v-icon>add</v-icon>
                 </v-btn>
             </v-flex>
         </v-layout>
 
-        <v-dialog width="50%" v-model="dialog">
+        <v-dialog width="60%" v-model="dialog">
             <v-card>
+
                 <v-card-title>
                     <h2 class="heading"> Create a new recipe </h2>
                 </v-card-title>
 
                 <v-card-text>
-                    
-                </v-card-text>
+                    <v-layout column justify-start>
+                        <v-flex xs12 sm8 md6>
+                            <v-text-field v-model="title" clearable box autofocus label="Title" name="title"></v-text-field>
+                        </v-flex>
 
+                        <v-flex xs12 sm8 md6>
+                            <v-textarea
+                            name="content"
+                            label="write your recipe here"
+                            auto-grow
+                            v-model="content"
+                            box
+                            ></v-textarea>
+                        </v-flex>
+
+                    </v-layout>
+                </v-card-text>
+                <v-divider></v-divider>
                 <v-card-actions>
                     <v-btn dark color="blue" @click="storeRecipe">create</v-btn>
-                    <v-btn dark color="red" @click="dialog = flase">cancel</v-btn>
+                    <v-btn dark color="red" @click="dialog = false">cancel</v-btn>
                 </v-card-actions>
 
             </v-card>
-        </v-dialog>    
+        </v-dialog>
+
+        <v-dialog width="60%" v-model="Updatedialog">
+            <v-card>
+
+                <v-card-title>
+                    <h2 class="heading"> update the recipe </h2>
+                </v-card-title>
+
+                <v-card-text>
+                    <v-layout column justify-start>
+                        <v-flex xs12 sm8 md6>
+                            <v-text-field v-model="recipe.title" clearable box autofocus label="Title" name="title"></v-text-field>
+                        </v-flex>
+
+                        <v-flex xs12 sm8 md6>
+                            <v-textarea
+                            name="content"
+                            label="write your recipe here"
+                            auto-grow
+                            box
+                            v-model="recipe.content"
+                            ></v-textarea>
+                        </v-flex>
+
+                    </v-layout>
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-card-actions>
+                    <v-btn dark color="blue" @click="updateRecipe">Update</v-btn>
+                    <v-btn dark color="red" @click="Updatedialog = false">cancel</v-btn>
+                </v-card-actions>
+
+            </v-card>
+        </v-dialog>     
 
     </v-layout>
 </template>
@@ -62,7 +113,16 @@ export default {
 
     data(){
         return {
-            dialog: false
+            /* v-dialog activator */
+            dialog: false,
+            Updatedialog: false,
+
+            /* new recipe data */
+            title: '',
+            content: '',
+
+            /* to be updated recipe data */
+            recipe: {}
         }
     },
 
@@ -73,12 +133,25 @@ export default {
     },
 
     methods: {
+        updateRecipeDialog(recipe){
+            this.recipe = recipe
+            this.Updatedialog = true;
+        },
+
         destroy(recipeID){
             this.$store.dispatch('destroyRecipe', recipeID);
         },
 
         storeRecipe(){
-            this.$store.dispatch('storeRecipe', { title: 'djamel', content: 'djamel2'});
+            this.$store.dispatch('storeRecipe', { title: this.title, content: this.content});
+            this.dialog = false;
+        },
+
+        updateRecipe(recipe){
+            this.$store.dispatch('updateRecipe', {  id: this.recipe.id, 
+                                                    title: this.recipe.title, 
+                                                    content: this.recipe.content});
+            this.Updatedialog = false;
         }
     },
 

@@ -8,6 +8,10 @@ export default {
         return  axios.post('/api/recipe', recipe);
     },
 
+    update(recipe){
+        return axios.put(`/api/recipe/${recipe.id}`, recipe);
+    },
+
     show(recipeID){
         return axios.get(`/api/recipe/${recipeID}`);
     },

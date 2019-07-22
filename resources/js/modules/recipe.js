@@ -33,6 +33,12 @@ export default {
             RecipeApi.store(recipe).then( ({ data }) => {
                 commit('addRecipe', data);
             });
+        },
+
+        updateRecipe({ commit }, recipe){
+            RecipeApi.update(recipe).then( res => {
+                console.log(res.data);
+            } );
         }
     },/* END of actions */
 

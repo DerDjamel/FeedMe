@@ -1971,10 +1971,70 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      dialog: false
+      /* v-dialog activator */
+      dialog: false,
+      Updatedialog: false,
+
+      /* new recipe data */
+      title: '',
+      content: '',
+
+      /* to be updated recipe data */
+      recipe: {}
     };
   },
   computed: {
@@ -1983,14 +2043,27 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    updateRecipeDialog: function updateRecipeDialog(recipe) {
+      this.recipe = recipe;
+      this.Updatedialog = true;
+    },
     destroy: function destroy(recipeID) {
       this.$store.dispatch('destroyRecipe', recipeID);
     },
     storeRecipe: function storeRecipe() {
       this.$store.dispatch('storeRecipe', {
-        title: 'djamel',
-        content: 'djamel2'
+        title: this.title,
+        content: this.content
       });
+      this.dialog = false;
+    },
+    updateRecipe: function updateRecipe(recipe) {
+      this.$store.dispatch('updateRecipe', {
+        id: this.recipe.id,
+        title: this.recipe.title,
+        content: this.recipe.content
+      });
+      this.Updatedialog = false;
     }
   },
   mounted: function mounted() {
@@ -19901,6 +19974,19 @@ var render = function() {
                     _c(
                       "v-btn",
                       {
+                        attrs: { flat: "", color: "blue" },
+                        on: {
+                          click: function($event) {
+                            return _vm.updateRecipeDialog(recipe)
+                          }
+                        }
+                      },
+                      [_vm._v("update")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-btn",
+                      {
                         attrs: { flat: "", color: "red" },
                         on: {
                           click: function($event) {
@@ -19942,6 +20028,7 @@ var render = function() {
                   },
                   on: {
                     click: function($event) {
+                      $event.stopPropagation()
                       _vm.dialog = true
                     }
                   }
@@ -19959,7 +20046,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { width: "50%" },
+          attrs: { width: "60%" },
           model: {
             value: _vm.dialog,
             callback: function($$v) {
@@ -19978,7 +20065,67 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _c("v-card-text"),
+              _c(
+                "v-card-text",
+                [
+                  _c(
+                    "v-layout",
+                    { attrs: { column: "", "justify-start": "" } },
+                    [
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "", sm8: "", md6: "" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              clearable: "",
+                              box: "",
+                              autofocus: "",
+                              label: "Title",
+                              name: "title"
+                            },
+                            model: {
+                              value: _vm.title,
+                              callback: function($$v) {
+                                _vm.title = $$v
+                              },
+                              expression: "title"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "", sm8: "", md6: "" } },
+                        [
+                          _c("v-textarea", {
+                            attrs: {
+                              name: "content",
+                              label: "write your recipe here",
+                              "auto-grow": "",
+                              box: ""
+                            },
+                            model: {
+                              value: _vm.content,
+                              callback: function($$v) {
+                                _vm.content = $$v
+                              },
+                              expression: "content"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-divider"),
               _vm._v(" "),
               _c(
                 "v-card-actions",
@@ -19998,7 +20145,125 @@ var render = function() {
                       attrs: { dark: "", color: "red" },
                       on: {
                         click: function($event) {
-                          _vm.dialog = _vm.flase
+                          _vm.dialog = false
+                        }
+                      }
+                    },
+                    [_vm._v("cancel")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "60%" },
+          model: {
+            value: _vm.Updatedialog,
+            callback: function($$v) {
+              _vm.Updatedialog = $$v
+            },
+            expression: "Updatedialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", [
+                _c("h2", { staticClass: "heading" }, [
+                  _vm._v(" update the recipe ")
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                [
+                  _c(
+                    "v-layout",
+                    { attrs: { column: "", "justify-start": "" } },
+                    [
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "", sm8: "", md6: "" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              clearable: "",
+                              box: "",
+                              autofocus: "",
+                              label: "Title",
+                              name: "title"
+                            },
+                            model: {
+                              value: _vm.recipe.title,
+                              callback: function($$v) {
+                                _vm.$set(_vm.recipe, "title", $$v)
+                              },
+                              expression: "recipe.title"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "", sm8: "", md6: "" } },
+                        [
+                          _c("v-textarea", {
+                            attrs: {
+                              name: "content",
+                              label: "write your recipe here",
+                              "auto-grow": "",
+                              box: ""
+                            },
+                            model: {
+                              value: _vm.recipe.content,
+                              callback: function($$v) {
+                                _vm.$set(_vm.recipe, "content", $$v)
+                              },
+                              expression: "recipe.content"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { dark: "", color: "blue" },
+                      on: { click: _vm.updateRecipe }
+                    },
+                    [_vm._v("Update")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { dark: "", color: "red" },
+                      on: {
+                        click: function($event) {
+                          _vm.Updatedialog = false
                         }
                       }
                     },
@@ -62152,6 +62417,9 @@ __webpack_require__.r(__webpack_exports__);
   store: function store(recipe) {
     return axios.post('/api/recipe', recipe);
   },
+  update: function update(recipe) {
+    return axios.put("/api/recipe/".concat(recipe.id), recipe);
+  },
   show: function show(recipeID) {
     return axios.get("/api/recipe/".concat(recipeID));
   },
@@ -62419,6 +62687,12 @@ __webpack_require__.r(__webpack_exports__);
       _api_recipe_js__WEBPACK_IMPORTED_MODULE_0__["default"].store(recipe).then(function (_ref7) {
         var data = _ref7.data;
         commit('addRecipe', data);
+      });
+    },
+    updateRecipe: function updateRecipe(_ref8, recipe) {
+      var commit = _ref8.commit;
+      _api_recipe_js__WEBPACK_IMPORTED_MODULE_0__["default"].update(recipe).then(function (res) {
+        console.log(res.data);
       });
     }
   },

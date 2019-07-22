@@ -61,7 +61,20 @@ class RecipeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title'     => 'required|string',
+            'content'   => 'required|string',
+        ]);
+
+        $recipe = Recipe::find($id);
+
+        $recipe->title      = $request->title;
+        $recipe->content    = $request->content;
+        $recipe->save();
+
+        return $recipe;
+
+
     }
 
     /**

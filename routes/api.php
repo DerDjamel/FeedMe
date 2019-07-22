@@ -25,6 +25,7 @@ Route::get('/user/auth', 'AuthController@checkAuth');
 /* Recipes Routes */
 Route::get('/recipes',      'api\RecipeController@index');
 Route::post('/recipe',      'api\RecipeController@store');
+Route::put('/recipe/{id}',      'api\RecipeController@update');
 Route::get('/recipe/{id}',  'api\RecipeController@show');
 Route::delete('/recipe/{id}',  'api\RecipeController@destroy');
 
