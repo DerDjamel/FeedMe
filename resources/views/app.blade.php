@@ -20,7 +20,7 @@
 </head>
 <body>
     <v-app id="app">
-        
+        <main-navigation></main-navigation> 
         <v-content>
             <v-container>
                 <router-view></router-view>

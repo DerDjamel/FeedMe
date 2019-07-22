@@ -54,10 +54,8 @@ export default {
                 email       : this.email,
                 password    : this.password
             }).then( ({ data }) => {
-                console.log(data);
-                this.$store.dispatch('loadUser', data);
+                this.$store.dispatch('loadUser', data.user);
                 this.$router.push({ name : 'index' });
-
             }).catch( err => {
                 console.log('for later');
             });

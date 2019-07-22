@@ -15,17 +15,19 @@ export default new VueRouter({
             path: '/login',
             name: 'login',
             component: Vue.component('login', require('./pages/Login.vue').default),
+            meta: { requireGuest: true }
         },
         {
             path: '/register',
             name: 'register',
             component: Vue.component('register', require('./pages/Register.vue').default),
+            meta: { requireGuest: true }
         },
 
+        
 
 
+    ], // end of routes
 
-
-
-    ] // end of routes
 }); // end of VueRouter
+

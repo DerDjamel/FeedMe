@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\User;
-
+use Session;
 use App\Http\Resources\User as UserResource;
 
 class AuthController extends Controller
@@ -26,10 +26,10 @@ class AuthController extends Controller
 
         $credentials = $request->only($this->username(), 'password');
         
-        if ( Auth::attempt($credentials) ){
+        if ( Auth::attempt($credentials, true) ){
             $request->session()->regenerate();
             return response()->json([
-                'user' => new UserResource(Auth::user())
+                'user' => new UserResource(Auth::user()),
             ], 200);
         }
         
@@ -77,5 +77,9 @@ class AuthController extends Controller
 
     public function username(){
         return 'email';
+    }
+
+    public function checkAuth(){
+        return response()->json([ 'auth' => Auth::check() ]);
     }
 }

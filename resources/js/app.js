@@ -15,9 +15,25 @@ import Router   from './routes.js';
 
 
 Vue.use(Vuetify);
-
-
-
+/*
+Router.beforeEach((to, from, next) => {
+    //console.log(to.meta.requireGuest);
+    //console.log(Store.getters.getAuth);
+    
+    if ( to.meta.requireGuest ){
+        if ( !Store.getters.getAuth ){
+            next();
+        }
+        else {
+            console.log('this route requires not authenticated');
+            next( { path: '/' } );
+        }
+    }
+    //console.log(Store.getters);
+    
+    next();
+});
+*/
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -36,6 +52,8 @@ Vue.use(Vuetify);
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
+Vue.component('main-navigation', require('./components/MainNavigation.vue').default)
 
 const app = new Vue({
     el      : '#app',

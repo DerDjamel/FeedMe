@@ -9,19 +9,28 @@ export default {
 
     actions: {
         loadUser({ commit }, user = null){
-            if ( user == null ){
+            if( user == null){
                 UserApi.getUser().then( res => {
                     commit('setUser', res.data);
                 });
+            } else {
+                commit('setUser', user);
             }
-            commit('setUser', user);
+
             commit('setAuth', true);
         },
 
         logoutUser({ commit }){
             commit('setUser', {});
             commit('setAuth', false);
-        }
+        },
+
+        checkUser({ commit }){
+            UserApi.checkIfAuthenticated().then(({ data }) => {
+                commit('setAuth', data.auth);
+            });
+        },
+        
     },/* END of actions */
 
 

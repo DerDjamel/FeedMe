@@ -3,10 +3,12 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-import UserModule from './modules/user.js'
+import UserModule   from './modules/user.js';
+import RecipeModule from './modules/recipe.js';
 
 export default new Vuex.Store({
     modules: {
-        user: UserModule
+        user    : UserModule,
+        recipe  : RecipeModule
     }
 });
