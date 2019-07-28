@@ -24,8 +24,12 @@ Route::get('/user/auth', 'AuthController@checkAuth');
 
 /* Recipes Routes */
 Route::get('/recipes',      'api\RecipeController@index');
-Route::post('/recipe',      'api\RecipeController@store');
+Route::post('/recipe',          'api\RecipeController@store');
 Route::put('/recipe/{id}',      'api\RecipeController@update');
-Route::get('/recipe/{id}',  'api\RecipeController@show');
+Route::get('/recipe/{id}',      'api\RecipeController@show');
 Route::delete('/recipe/{id}',  'api\RecipeController@destroy');
+
+/* Recipes Routes */
+Route::get('/review/{id}',      'api\ReviewController@show');
+Route::post('/review',          'api\ReviewController@store');
 

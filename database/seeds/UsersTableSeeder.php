@@ -13,7 +13,12 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         factory(User::class, 10)->create()->each(function($user){
-            $user->recipes()->save(factory(App\Recipe::class)->make());
+            $recipe = factory(App\Recipe::class)->make();
+            $user->recipes()->save($recipe);
+            $reviews = factory(App\Review::class, mt_rand(2, 6))->create([
+                'user_id'   => $user->id,
+                'recipe_id' => $recipe->id
+            ]);
         });
     }
 }

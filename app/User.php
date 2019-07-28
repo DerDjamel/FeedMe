@@ -40,4 +40,8 @@ class User extends Authenticatable
     public function recipes(){
         return $this->hasMany('App\Recipe');
     }
+
+    public function reviews(){
+        return $this->hasMany('App\Review');
+    }
 }
