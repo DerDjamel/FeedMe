@@ -79,7 +79,7 @@ class ReviewController extends Controller
      */
     public function destroy($id)
     {
-        Recipe::destroy($id);
-        return response()->json([ 'message' => 'recipe deleted' ]);
+        Review::destroy($id);
+        return response()->json([ 'message' => 'Review deleted' ]);
     }
 }

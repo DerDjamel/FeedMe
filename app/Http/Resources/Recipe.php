@@ -3,8 +3,13 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+
 use App\Http\Resources\User as UserResource;
 use App\User;
+
+use App\Http\Resources\Review as ReviewResource;
+use App\Review;
+
 
 class Recipe extends JsonResource
 {
@@ -20,7 +25,8 @@ class Recipe extends JsonResource
             'id'        => $this->id,
             'title'     => $this->title,
             'content'   => $this->content,
-            'user'      => new UserResource(User::find($this->user_id))
+            'user'      => new UserResource(User::find($this->user_id)),
+            'reviews'   => ReviewResource::collection($this->reviews)
         ];
     }
 }
