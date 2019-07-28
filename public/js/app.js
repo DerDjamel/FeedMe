@@ -62430,6 +62430,32 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/api/review.js":
+/*!************************************!*\
+  !*** ./resources/js/api/review.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  store: function store(review) {
+    return axios.post('/api/review', recipe);
+  },
+  update: function update(review) {
+    return axios.put("/api/review/".concat(review.id), review);
+  },
+  show: function show(reviewID) {
+    return axios.get("/api/review/".concat(reviewID));
+  },
+  destroy: function destroy(reviewID) {
+    return axios["delete"]("/api/review/".concat(reviewID));
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/api/user.js":
 /*!**********************************!*\
   !*** ./resources/js/api/user.js ***!
@@ -62724,6 +62750,95 @@ __webpack_require__.r(__webpack_exports__);
       return state.recipe;
     }
   }
+  /* End of getters */
+
+});
+
+/***/ }),
+
+/***/ "./resources/js/modules/review.js":
+/*!****************************************!*\
+  !*** ./resources/js/modules/review.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api_review_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/review.js */ "./resources/js/api/review.js");
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: {},
+
+  /* END of state */
+  actions: {
+    storeReview: function storeReview(_ref, review) {
+      var commit = _ref.commit;
+      _api_review_js__WEBPACK_IMPORTED_MODULE_0__["default"].store(review).then(function (_ref2) {
+        var data = _ref2.data;
+        commit('addReview', data);
+      });
+    },
+    updateReview: function updateReview(_ref3, review) {
+      var commit = _ref3.commit;
+      _api_review_js__WEBPACK_IMPORTED_MODULE_0__["default"].update(review.id).then(function (_ref4) {
+        var data = _ref4.data;
+        commit('updateReview', data);
+      });
+    },
+    destroyReview: function destroyReview(_ref5, reviewId) {
+      var commit = _ref5.commit;
+      _api_review_js__WEBPACK_IMPORTED_MODULE_0__["default"].destroy(reviewId).then(function (_ref6) {
+        var data = _ref6.data;
+        commit('deleteReview', reviewId);
+      });
+    }
+  },
+
+  /* END of actions */
+  mutations: {
+    addReview: function addReview(state, review) {
+      var index = state.recipes.findIndex(function (recipe) {
+        return recipe.id == review.recipe_id;
+      });
+      state.recipe[index].reviews.push(review);
+    },
+    updateReview: function updateReview(state, review) {
+      var recipeIndex = state.recipes.findIndex(function (recipe) {
+        return recipe.id == review.recipe_id;
+      });
+      var reviews = state.recipe[recipeIndex].reviews;
+      var reviewIndex = reviews.findIndex(function (r) {
+        return r.id == review.id;
+      });
+      state.recipe[recipeIndex].reviews[reviewIndex] = review;
+    },
+    deleteReview: function deleteReview(state, reviewId) {
+      var index = state.recipes.findIndex(function (recipe) {
+        return recipe.id == review.recipe_id;
+      });
+      state.recipe[index].reviews.push(review);
+      var i = 0;
+
+      while (i < state.recipes.length) {
+        var reviews = state.recipes[i].reviews;
+
+        var _index = reviews.findIndex(function (review) {
+          return review.id == reviewId;
+        });
+
+        if (_index != -1) {
+          state.recipes[i].reviews.pop(_index);
+          break;
+        }
+
+        i++;
+      }
+    }
+  },
+
+  /* End of mutations */
+  getters: {}
   /* End of getters */
 
 });
@@ -63064,15 +63179,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _modules_user_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/user.js */ "./resources/js/modules/user.js");
 /* harmony import */ var _modules_recipe_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/recipe.js */ "./resources/js/modules/recipe.js");
+/* harmony import */ var _modules_review_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/review.js */ "./resources/js/modules/review.js");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   modules: {
     user: _modules_user_js__WEBPACK_IMPORTED_MODULE_2__["default"],
-    recipe: _modules_recipe_js__WEBPACK_IMPORTED_MODULE_3__["default"]
+    recipe: _modules_recipe_js__WEBPACK_IMPORTED_MODULE_3__["default"],
+    review: _modules_review_js__WEBPACK_IMPORTED_MODULE_4__["default"]
   }
 }));
 

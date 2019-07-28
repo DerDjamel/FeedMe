@@ -23,13 +23,17 @@ Route::middleware('auth:api')->group(function () {
 Route::get('/user/auth', 'AuthController@checkAuth');
 
 /* Recipes Routes */
-Route::get('/recipes',      'api\RecipeController@index');
+Route::get('/recipes',          'api\RecipeController@index');
 Route::post('/recipe',          'api\RecipeController@store');
 Route::put('/recipe/{id}',      'api\RecipeController@update');
 Route::get('/recipe/{id}',      'api\RecipeController@show');
-Route::delete('/recipe/{id}',  'api\RecipeController@destroy');
+Route::delete('/recipe/{id}',   'api\RecipeController@destroy');
 
-/* Recipes Routes */
-Route::get('/review/{id}',      'api\ReviewController@show');
+/* Reviews Routes */
+Route::get('/reviews',          'api\ReviewController@index');
 Route::post('/review',          'api\ReviewController@store');
+Route::put('/review/{id}',      'api\ReviewController@update');
+Route::get('/review/{id}',      'api\ReviewController@show');
+Route::delete('/review/{id}',   'api\ReviewController@destroy');
+
 
