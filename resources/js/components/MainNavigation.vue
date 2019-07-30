@@ -3,14 +3,15 @@
         <!--<v-toolbar-side-icon></v-toolbar-side-icon>-->
         <v-toolbar-title>FeedMe</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-toolbar-items v-if="!authenticated" class="hidden-sm-and-down">
+        <v-toolbar-items v-if="!auth"  class="hidden-sm-and-down">
             <v-btn  flat v-for="link in links" :key="link.label" :to="link.route">
                 <v-icon left small> {{ link.icon }} </v-icon>
                 {{ link.label }}
             </v-btn>
         </v-toolbar-items>
-
+    
         <v-toolbar-items v-else class="hidden-sm-and-down">
+            
             <v-btn flat>
                 {{ user.name }}
             </v-btn>
@@ -24,8 +25,9 @@
   </v-toolbar>
 </template>
 <script>
-
+import Auth from '../api/auth.js';
 export default {
+    props: ['auth'],
     data(){
         return {
             /* navigation related */
@@ -50,10 +52,18 @@ export default {
 
     methods: {
         logout(){
-            axios.get('/logout').then( res => {
-                console.log(res.data);
+            Auth.logout().then( res => {
+                this.$store.dispatch('logoutUser');
+                window.location = '/';
             });
         }
+    },
+
+    mounted(){
+        if(this.auth){
+            this.$store.dispatch('loadUser');
+        }
     }
+  
 }
 </script>

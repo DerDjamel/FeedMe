@@ -20,13 +20,12 @@
 </head>
 <body>
     <v-app id="app">
-        <main-navigation></main-navigation> 
+    <main-navigation auth="{{ auth()->check() }}"></main-navigation>
         <v-content>
             <v-container>
                 <router-view></router-view>
             </v-container>
         </v-content>
-
     </v-app>
 </body>
 </html>

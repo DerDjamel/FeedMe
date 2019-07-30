@@ -58,5 +58,5 @@ Vue.component('main-navigation', require('./components/MainNavigation.vue').defa
 const app = new Vue({
     el      : '#app',
     store   : Store,
-    router  : Router
+    router  : Router,
 });

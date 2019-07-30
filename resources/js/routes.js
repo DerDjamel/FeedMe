@@ -30,4 +30,3 @@ export default new VueRouter({
     ], // end of routes
 
 }); // end of VueRouter
-

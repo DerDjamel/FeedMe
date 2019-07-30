@@ -157,6 +157,8 @@ export default {
 
     mounted(){
         this.$store.dispatch('loadAllRecipes');
+        //checkIfAuthenticated
+        this.$store.dispatch('checkUser');
     }
 }
 </script>

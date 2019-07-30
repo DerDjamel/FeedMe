@@ -6,7 +6,7 @@ export default {
     },
 
     checkIfAuthenticated(){
-        return Axios.get('/api/user/auth');
+        return Axios.get('/user/auth');
     }
 
 }

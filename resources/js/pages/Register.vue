@@ -22,6 +22,10 @@
                                 <v-text-field v-model="password" name="password" type="password" label="password" clearable></v-text-field>
                             </v-flex>
 
+                            <v-flex>
+                                <v-text-field v-model="password_confirmation" name="password_confirmation" type="password" label="password confirmation" clearable></v-text-field>
+                            </v-flex>
+
                         </v-layout>
                 </v-form>
             </v-flex>
@@ -36,13 +40,14 @@
 </template>
 
 <script>
-import Axios from "axios";
+import Auth from '../api/auth.js';
 export default {
     data(){
         return {
             name        : '',
             email       : '',
             password    : '',
+            password_confirmation: '',
 
             errors: {},
         };
@@ -55,17 +60,17 @@ export default {
         },
 
         register(){
-            Axios.post('/register', {
+            Auth.register({
                 name        : this.name,
                 email       : this.email,
-                password    : this.password
+                password    : this.password,
+                password_confirmation: this.password_confirmation
             }).then( ({ data }) => {
                 console.log(data);
-                this.$store.dispatch('loadUser', data);
-                this.$router.push({ name : 'index' });
-
+                this.$store.dispatch('loadUser');
+                window.location = '/';
             }).catch( err => {
-                console.log('for later');
+                console.log(err.response.data);
             });
         }
 

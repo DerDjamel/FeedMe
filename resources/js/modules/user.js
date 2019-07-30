@@ -2,21 +2,16 @@ import UserApi from '../api/user.js';
 
 export default {
     state: {
-        user: '',
+        user: {},
         auth: false
     },/* END of state */
 
 
     actions: {
-        loadUser({ commit }, user = null){
-            if( user == null){
-                UserApi.getUser().then( res => {
-                    commit('setUser', res.data);
-                });
-            } else {
-                commit('setUser', user);
-            }
-
+        loadUser({ commit }){
+            UserApi.getUser().then( res => {
+                commit('setUser', res.data);
+            });
             commit('setAuth', true);
         },
 

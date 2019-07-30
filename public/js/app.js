@@ -1838,6 +1838,7 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api_auth_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/auth.js */ "./resources/js/api/auth.js");
 //
 //
 //
@@ -1863,7 +1864,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['auth'],
   data: function data() {
     return {
       /* navigation related */
@@ -1894,9 +1898,18 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     logout: function logout() {
-      axios.get('/logout').then(function (res) {
-        console.log(res.data);
+      var _this = this;
+
+      _api_auth_js__WEBPACK_IMPORTED_MODULE_0__["default"].logout().then(function (res) {
+        _this.$store.dispatch('logoutUser');
+
+        window.location = '/';
       });
+    }
+  },
+  mounted: function mounted() {
+    if (this.auth) {
+      this.$store.dispatch('loadUser');
     }
   }
 });
@@ -2067,7 +2080,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.$store.dispatch('loadAllRecipes');
+    this.$store.dispatch('loadAllRecipes'); //checkIfAuthenticated
+
+    this.$store.dispatch('checkUser');
   }
 });
 
@@ -2082,8 +2097,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api_auth_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/auth.js */ "./resources/js/api/auth.js");
+//
 //
 //
 //
@@ -2134,19 +2149,17 @@ __webpack_require__.r(__webpack_exports__);
     login: function login() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/login', {
+      _api_auth_js__WEBPACK_IMPORTED_MODULE_0__["default"].login({
         email: this.email,
         password: this.password
-      }).then(function (_ref) {
-        var data = _ref.data;
+      }).then(function (res) {
+        // 1 - dispatch loadUser to set the user information and auth to true
+        // 2 - then redirect to the index of the app
+        _this.$store.dispatch('loadUser');
 
-        _this.$store.dispatch('loadUser', data.user);
-
-        _this.$router.push({
-          name: 'index'
-        });
-      })["catch"](function (err) {
-        console.log('for later');
+        window.location = '/';
+      })["catch"](function (error) {
+        _this.errors = error.response.data;
       });
     }
   }
@@ -2163,8 +2176,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api_auth_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/auth.js */ "./resources/js/api/auth.js");
+//
+//
+//
+//
 //
 //
 //
@@ -2209,6 +2225,7 @@ __webpack_require__.r(__webpack_exports__);
       name: '',
       email: '',
       password: '',
+      password_confirmation: '',
       errors: {}
     };
   },
@@ -2220,21 +2237,20 @@ __webpack_require__.r(__webpack_exports__);
     register: function register() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/register', {
+      _api_auth_js__WEBPACK_IMPORTED_MODULE_0__["default"].register({
         name: this.name,
         email: this.email,
-        password: this.password
+        password: this.password,
+        password_confirmation: this.password_confirmation
       }).then(function (_ref) {
         var data = _ref.data;
         console.log(data);
 
-        _this.$store.dispatch('loadUser', data);
+        _this.$store.dispatch('loadUser');
 
-        _this.$router.push({
-          name: 'index'
-        });
+        window.location = '/';
       })["catch"](function (err) {
-        console.log('for later');
+        console.log(err.response.data);
       });
     }
   }
@@ -19871,7 +19887,7 @@ var render = function() {
       _vm._v(" "),
       _c("v-spacer"),
       _vm._v(" "),
-      !_vm.authenticated
+      !_vm.auth
         ? _c(
             "v-toolbar-items",
             { staticClass: "hidden-sm-and-down" },
@@ -20305,76 +20321,82 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-layout",
-    { attrs: { "justify-center": "", "align-center": "", column: "" } },
+    "v-card",
     [
       _c(
-        "v-flex",
-        { attrs: { xs12: "", md8: "", "mb-3": "", "text-xs-center": "" } },
-        [_c("h2", [_vm._v("Login Page")])]
-      ),
-      _vm._v(" "),
-      _c("v-divider"),
-      _vm._v(" "),
-      _c(
-        "v-flex",
-        { attrs: { "my-2": "", "pa-2": "", xs6: "" } },
+        "v-layout",
+        { attrs: { "justify-center": "", "align-center": "", column: "" } },
         [
           _c(
-            "v-form",
-            { ref: "loginForm" },
+            "v-flex",
+            { attrs: { xs12: "", md8: "", "mb-3": "", "text-xs-center": "" } },
+            [_c("h2", [_vm._v("Login Page")])]
+          ),
+          _vm._v(" "),
+          _c("v-divider"),
+          _vm._v(" "),
+          _c(
+            "v-flex",
+            { attrs: { "my-2": "", "pa-2": "", xs6: "" } },
             [
               _c(
-                "v-layout",
-                {
-                  attrs: {
-                    "justify-center": "",
-                    "align-center": "",
-                    column: ""
-                  }
-                },
+                "v-form",
+                { ref: "loginForm" },
                 [
                   _c(
-                    "v-flex",
+                    "v-layout",
+                    {
+                      attrs: {
+                        "justify-center": "",
+                        "align-center": "",
+                        column: ""
+                      }
+                    },
                     [
-                      _c("v-text-field", {
-                        attrs: {
-                          name: "email",
-                          type: "email",
-                          label: "e-mail",
-                          autofocus: "",
-                          clearable: ""
-                        },
-                        model: {
-                          value: _vm.email,
-                          callback: function($$v) {
-                            _vm.email = $$v
-                          },
-                          expression: "email"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-flex",
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          name: "password",
-                          type: "password",
-                          label: "password",
-                          clearable: ""
-                        },
-                        model: {
-                          value: _vm.password,
-                          callback: function($$v) {
-                            _vm.password = $$v
-                          },
-                          expression: "password"
-                        }
-                      })
+                      _c(
+                        "v-flex",
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              name: "email",
+                              type: "email",
+                              label: "e-mail",
+                              autofocus: "",
+                              clearable: ""
+                            },
+                            model: {
+                              value: _vm.email,
+                              callback: function($$v) {
+                                _vm.email = $$v
+                              },
+                              expression: "email"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-flex",
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              name: "password",
+                              type: "password",
+                              label: "password",
+                              clearable: ""
+                            },
+                            model: {
+                              value: _vm.password,
+                              callback: function($$v) {
+                                _vm.password = $$v
+                              },
+                              expression: "password"
+                            }
+                          })
+                        ],
+                        1
+                      )
                     ],
                     1
                   )
@@ -20383,25 +20405,25 @@ var render = function() {
               )
             ],
             1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-flex",
-        { attrs: { xs12: "" } },
-        [
-          _c(
-            "v-btn",
-            { attrs: { color: "success" }, on: { click: _vm.login } },
-            [_vm._v("Log in")]
           ),
           _vm._v(" "),
           _c(
-            "v-btn",
-            { attrs: { color: "warning" }, on: { click: _vm.reset } },
-            [_vm._v("reset")]
+            "v-flex",
+            { attrs: { xs12: "" } },
+            [
+              _c(
+                "v-btn",
+                { attrs: { color: "success" }, on: { click: _vm.login } },
+                [_vm._v("Log in")]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                { attrs: { color: "warning" }, on: { click: _vm.reset } },
+                [_vm._v("reset")]
+              )
+            ],
+            1
           )
         ],
         1
@@ -20524,6 +20546,28 @@ var render = function() {
                             _vm.password = $$v
                           },
                           expression: "password"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-flex",
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          name: "password_confirmation",
+                          type: "password",
+                          label: "password confirmation",
+                          clearable: ""
+                        },
+                        model: {
+                          value: _vm.password_confirmation,
+                          callback: function($$v) {
+                            _vm.password_confirmation = $$v
+                          },
+                          expression: "password_confirmation"
                         }
                       })
                     ],
@@ -62401,6 +62445,29 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/js/api/auth.js":
+/*!**********************************!*\
+  !*** ./resources/js/api/auth.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  login: function login(credentials) {
+    return axios.post('/login', credentials);
+  },
+  logout: function logout() {
+    return axios.post('/logout');
+  },
+  register: function register(user) {
+    return axios.post('/register', user);
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/api/recipe.js":
 /*!************************************!*\
   !*** ./resources/js/api/recipe.js ***!
@@ -62473,7 +62540,7 @@ __webpack_require__.r(__webpack_exports__);
     return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/user');
   },
   checkIfAuthenticated: function checkIfAuthenticated() {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/user/auth');
+    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/user/auth');
   }
 });
 
@@ -62858,7 +62925,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: {
-    user: '',
+    user: {},
     auth: false
   },
 
@@ -62866,16 +62933,9 @@ __webpack_require__.r(__webpack_exports__);
   actions: {
     loadUser: function loadUser(_ref) {
       var commit = _ref.commit;
-      var user = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-      if (user == null) {
-        _api_user_js__WEBPACK_IMPORTED_MODULE_0__["default"].getUser().then(function (res) {
-          commit('setUser', res.data);
-        });
-      } else {
-        commit('setUser', user);
-      }
-
+      _api_user_js__WEBPACK_IMPORTED_MODULE_0__["default"].getUser().then(function (res) {
+        commit('setUser', res.data);
+      });
       commit('setAuth', true);
     },
     logoutUser: function logoutUser(_ref2) {

@@ -12,11 +12,13 @@
 */
 
 
-//Auth::routes();
+Auth::routes();
+
+Route::get('/user/auth', 'AuthController@checkAuth');
 
 Route::get('/', 'AppController@index')->name('index');
 
-Route::get('/logout', 'AuthController@logout');
-Route::post('/login', 'AuthController@login');
+//Route::get('/logout', 'AuthController@logout');
+//Route::post('/login', 'AuthController@login');
 
-Route::post('/register', 'AuthController@register');
+//Route::post('/register', 'AuthController@register');

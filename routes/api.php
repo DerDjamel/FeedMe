@@ -20,7 +20,7 @@ Route::middleware('auth:api')->group(function () {
 
 
 
-Route::get('/user/auth', 'AuthController@checkAuth');
+
 
 /* Recipes Routes */
 Route::get('/recipes',          'api\RecipeController@index');
