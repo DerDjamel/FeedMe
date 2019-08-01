@@ -1916,10 +1916,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Index.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Index.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Recipe.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Recipe.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2002,6 +2002,141 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    recipe: {
+      type: Object,
+      required: true
+    }
+  },
+  data: function data() {
+    return {
+      id: this.recipe.id,
+      title: this.recipe.title,
+      content: this.recipe.content,
+      user: this.recipe.user,
+      reviews: this.recipe.reviews,
+      can: this.recipe.can || {
+        update: false,
+        "delete": false
+      },
+      dialog: false
+    };
+  },
+  computed: {
+    numberOfReviews: function numberOfReviews() {
+      return this.recipe.reviews.length;
+    }
+  },
+  methods: {
+    update: function update() {
+      this.$store.dispatch('updateRecipe', {
+        id: this.id,
+        title: this.title,
+        content: this.content
+      });
+      this.dialog = false;
+    },
+    destroy: function destroy() {
+      this.$store.dispatch('destroyRecipe', this.id);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Review.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Review.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    review: {
+      type: Object,
+      required: true
+    }
+  },
+  data: function data() {
+    return {
+      content: this.review.content,
+      id: this.review.id,
+      user: this.review.user,
+      can: this.review.can || {
+        update: false,
+        "delete": false
+      }
+    };
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Index.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Index.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2056,27 +2191,12 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    updateRecipeDialog: function updateRecipeDialog(recipe) {
-      this.recipe = recipe;
-      this.Updatedialog = true;
-    },
-    destroy: function destroy(recipeID) {
-      this.$store.dispatch('destroyRecipe', recipeID);
-    },
     storeRecipe: function storeRecipe() {
       this.$store.dispatch('storeRecipe', {
         title: this.title,
         content: this.content
       });
       this.dialog = false;
-    },
-    updateRecipe: function updateRecipe(recipe) {
-      this.$store.dispatch('updateRecipe', {
-        id: this.recipe.id,
-        title: this.recipe.title,
-        content: this.recipe.content
-      });
-      this.Updatedialog = false;
     }
   },
   mounted: function mounted() {
@@ -2253,6 +2373,42 @@ __webpack_require__.r(__webpack_exports__);
         console.log(err.response.data);
       });
     }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/SingleRecipe.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/SingleRecipe.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    recipeId: {
+      required: true
+    }
+  },
+  data: function data() {
+    return {};
+  },
+  computed: {
+    getRecipe: function getRecipe() {
+      return this.$store.getters.getRecipe;
+    }
+  },
+  created: function created() {
+    this.$store.dispatch('loadRecipe', this.recipeId);
   }
 });
 
@@ -19935,6 +20091,333 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Recipe.vue?vue&type=template&id=658c8cb9&":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Recipe.vue?vue&type=template&id=658c8cb9& ***!
+  \*********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-card",
+    [
+      _c("v-card-title", { attrs: { "primary-title": "" } }, [
+        _c("div", [
+          _c("h3", { staticClass: "headline mb-0 font-weight-bold" }, [
+            _vm._v(" " + _vm._s(_vm.recipe.title) + " ")
+          ]),
+          _vm._v(" "),
+          _c("h6", { staticClass: "subheading mt-1 font-weight-black" }, [
+            _vm._v(" " + _vm._s(_vm.recipe.user.name) + " ")
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("v-divider"),
+      _vm._v(" "),
+      _c("v-card-text", [
+        _c("p", [_vm._v(" " + _vm._s(_vm.recipe.content) + " ")])
+      ]),
+      _vm._v(" "),
+      _c(
+        "v-card-actions",
+        [
+          _c(
+            "v-btn",
+            { attrs: { flat: "" } },
+            [
+              _vm._v(
+                "\n            " +
+                  _vm._s(_vm.numberOfReviews) +
+                  "\n            "
+              ),
+              _c("v-icon", { attrs: { small: "" } }, [_vm._v("comment")])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: {
+                to: { name: "single-recipe", params: { recipeId: _vm.id } }
+              }
+            },
+            [_vm._v("read")]
+          ),
+          _vm._v(" "),
+          _vm.can.update
+            ? _c(
+                "v-btn",
+                {
+                  attrs: { flat: "", color: "blue" },
+                  on: {
+                    click: function($event) {
+                      _vm.dialog = true
+                    }
+                  }
+                },
+                [
+                  _vm._v("update"),
+                  _c(
+                    "v-icon",
+                    { attrs: { right: "", samll: "", color: "blue" } },
+                    [_vm._v("update")]
+                  )
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.can.delete
+            ? _c(
+                "v-btn",
+                {
+                  attrs: { flat: "", color: "red" },
+                  on: { click: _vm.destroy }
+                },
+                [
+                  _vm._v("delete "),
+                  _c(
+                    "v-icon",
+                    { attrs: { right: "", samll: "", color: "red" } },
+                    [_vm._v("delete")]
+                  )
+                ],
+                1
+              )
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { "max-width": "60%" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", [
+                _c("h2", { staticClass: "heading" }, [
+                  _vm._v(" Update recipe ")
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-text",
+                [
+                  _c(
+                    "v-layout",
+                    { attrs: { column: "", "justify-start": "" } },
+                    [
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "", sm8: "", md6: "" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              clearable: "",
+                              box: "",
+                              autofocus: "",
+                              label: "Title",
+                              name: "title"
+                            },
+                            model: {
+                              value: _vm.title,
+                              callback: function($$v) {
+                                _vm.title = $$v
+                              },
+                              expression: "title"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "", sm8: "", md6: "" } },
+                        [
+                          _c("v-textarea", {
+                            attrs: {
+                              name: "content",
+                              label: "write your recipe here",
+                              "auto-grow": "",
+                              box: ""
+                            },
+                            model: {
+                              value: _vm.content,
+                              callback: function($$v) {
+                                _vm.content = $$v
+                              },
+                              expression: "content"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { dark: "", color: "blue" },
+                      on: { click: _vm.update }
+                    },
+                    [_vm._v("Update")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { dark: "", color: "red" },
+                      on: {
+                        click: function($event) {
+                          _vm.dialog = false
+                        }
+                      }
+                    },
+                    [_vm._v("cancel")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        _vm._l(_vm.recipe.reviews, function(review) {
+          return _c("review", { key: review.id, attrs: { review: review } })
+        }),
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Review.vue?vue&type=template&id=097b3983&":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Review.vue?vue&type=template&id=097b3983& ***!
+  \*********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-card",
+    [
+      _c(
+        "v-layout",
+        { attrs: { row: "", "align-center": "", "justify-space-between": "" } },
+        [
+          _c(
+            "v-flex",
+            {
+              attrs: {
+                "d-flex": "",
+                "justify-center": "",
+                "align-center": "",
+                xs1: "",
+                "my-2": ""
+              }
+            },
+            [
+              _c("v-avatar", { attrs: { size: "40" } }, [
+                _c("img", {
+                  attrs: {
+                    src: "https://vuetifyjs.com/apple-touch-icon-180x180.png",
+                    alt: "avatar"
+                  }
+                })
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-flex",
+            { attrs: { xs11: "" } },
+            [
+              _c(
+                "v-layout",
+                { attrs: { column: "" } },
+                [
+                  _c("v-flex", { attrs: { "mt-2": "", "pa-1": "" } }, [
+                    _c("h6", { staticClass: "subheading" }, [
+                      _vm._v(_vm._s(_vm.user.name))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("v-flex", { attrs: { "my-1": "", "pa-1": "" } }, [
+                    _c("p", [_vm._v(" " + _vm._s(_vm.content) + " ")])
+                  ])
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Index.vue?vue&type=template&id=71c33819&":
 /*!***************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Index.vue?vue&type=template&id=71c33819& ***!
@@ -19958,106 +20441,10 @@ var render = function() {
         return _c(
           "v-flex",
           { key: recipe.id, attrs: { "mb-3": "", xs12: "", sm8: "", md6: "" } },
-          [
-            _c(
-              "v-card",
-              [
-                _c("v-card-title", { attrs: { "primary-title": "" } }, [
-                  _c("div", [
-                    _c("h3", { staticClass: "headline mb-0" }, [
-                      _vm._v(" " + _vm._s(recipe.title) + " ")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "h6",
-                      { staticClass: "subheading mt-1 font-weight-black" },
-                      [_vm._v(" " + _vm._s(recipe.user.name) + " ")]
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("v-card-text", [
-                  _c("p", [_vm._v(" " + _vm._s(recipe.content) + " ")])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "v-card-actions",
-                  [
-                    _c("v-btn", { attrs: { flat: "", color: "orange" } }, [
-                      _vm._v("read")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "v-btn",
-                      {
-                        attrs: { flat: "", color: "blue" },
-                        on: {
-                          click: function($event) {
-                            return _vm.updateRecipeDialog(recipe)
-                          }
-                        }
-                      },
-                      [_vm._v("update")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-btn",
-                      {
-                        attrs: { flat: "", color: "red" },
-                        on: {
-                          click: function($event) {
-                            return _vm.destroy(recipe.id)
-                          }
-                        }
-                      },
-                      [_vm._v("delete")]
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          ],
+          [_c("recipe", { attrs: { recipe: recipe } })],
           1
         )
       }),
-      _vm._v(" "),
-      _c(
-        "v-layout",
-        [
-          _c(
-            "v-flex",
-            { attrs: { xs5: "" } },
-            [
-              _c(
-                "v-btn",
-                {
-                  attrs: {
-                    fab: "",
-                    dark: "",
-                    small: "",
-                    fixed: "",
-                    bottom: "",
-                    left: "",
-                    color: "red"
-                  },
-                  on: {
-                    click: function($event) {
-                      $event.stopPropagation()
-                      _vm.dialog = true
-                    }
-                  }
-                },
-                [_c("v-icon", [_vm._v("add")])],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
       _vm._v(" "),
       _c(
         "v-dialog",
@@ -20178,114 +20565,32 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
-        "v-dialog",
-        {
-          attrs: { width: "60%" },
-          model: {
-            value: _vm.Updatedialog,
-            callback: function($$v) {
-              _vm.Updatedialog = $$v
-            },
-            expression: "Updatedialog"
-          }
-        },
+        "v-layout",
         [
           _c(
-            "v-card",
+            "v-flex",
+            { attrs: { xs5: "" } },
             [
-              _c("v-card-title", [
-                _c("h2", { staticClass: "heading" }, [
-                  _vm._v(" update the recipe ")
-                ])
-              ]),
-              _vm._v(" "),
               _c(
-                "v-card-text",
-                [
-                  _c(
-                    "v-layout",
-                    { attrs: { column: "", "justify-start": "" } },
-                    [
-                      _c(
-                        "v-flex",
-                        { attrs: { xs12: "", sm8: "", md6: "" } },
-                        [
-                          _c("v-text-field", {
-                            attrs: {
-                              clearable: "",
-                              box: "",
-                              autofocus: "",
-                              label: "Title",
-                              name: "title"
-                            },
-                            model: {
-                              value: _vm.recipe.title,
-                              callback: function($$v) {
-                                _vm.$set(_vm.recipe, "title", $$v)
-                              },
-                              expression: "recipe.title"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-flex",
-                        { attrs: { xs12: "", sm8: "", md6: "" } },
-                        [
-                          _c("v-textarea", {
-                            attrs: {
-                              name: "content",
-                              label: "write your recipe here",
-                              "auto-grow": "",
-                              box: ""
-                            },
-                            model: {
-                              value: _vm.recipe.content,
-                              callback: function($$v) {
-                                _vm.$set(_vm.recipe, "content", $$v)
-                              },
-                              expression: "recipe.content"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("v-divider"),
-              _vm._v(" "),
-              _c(
-                "v-card-actions",
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { dark: "", color: "blue" },
-                      on: { click: _vm.updateRecipe }
-                    },
-                    [_vm._v("Update")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { dark: "", color: "red" },
-                      on: {
-                        click: function($event) {
-                          _vm.Updatedialog = false
-                        }
-                      }
-                    },
-                    [_vm._v("cancel")]
-                  )
-                ],
+                "v-btn",
+                {
+                  attrs: {
+                    fab: "",
+                    dark: "",
+                    small: "",
+                    fixed: "",
+                    bottom: "",
+                    left: "",
+                    color: "red"
+                  },
+                  on: {
+                    click: function($event) {
+                      $event.stopPropagation()
+                      _vm.dialog = true
+                    }
+                  }
+                },
+                [_c("v-icon", [_vm._v("add")])],
                 1
               )
             ],
@@ -20604,6 +20909,30 @@ var render = function() {
     ],
     1
   )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/SingleRecipe.vue?vue&type=template&id=6b692eff&":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/SingleRecipe.vue?vue&type=template&id=6b692eff& ***!
+  \**********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [_c("recipe", { attrs: { recipe: _vm.getRecipe } })], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -62609,6 +62938,8 @@ Router.beforeEach((to, from, next) => {
  */
 
 Vue.component('main-navigation', __webpack_require__(/*! ./components/MainNavigation.vue */ "./resources/js/components/MainNavigation.vue")["default"]);
+Vue.component('recipe', __webpack_require__(/*! ./components/Recipe.vue */ "./resources/js/components/Recipe.vue")["default"]);
+Vue.component('review', __webpack_require__(/*! ./components/Review.vue */ "./resources/js/components/Review.vue")["default"]);
 var app = new Vue({
   el: '#app',
   store: _store_js__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -62726,6 +63057,144 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MainNavigation_vue_vue_type_template_id_58b02558___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MainNavigation_vue_vue_type_template_id_58b02558___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Recipe.vue":
+/*!********************************************!*\
+  !*** ./resources/js/components/Recipe.vue ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Recipe_vue_vue_type_template_id_658c8cb9___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Recipe.vue?vue&type=template&id=658c8cb9& */ "./resources/js/components/Recipe.vue?vue&type=template&id=658c8cb9&");
+/* harmony import */ var _Recipe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Recipe.vue?vue&type=script&lang=js& */ "./resources/js/components/Recipe.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Recipe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Recipe_vue_vue_type_template_id_658c8cb9___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Recipe_vue_vue_type_template_id_658c8cb9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Recipe.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Recipe.vue?vue&type=script&lang=js&":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/Recipe.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Recipe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Recipe.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Recipe.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Recipe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Recipe.vue?vue&type=template&id=658c8cb9&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/Recipe.vue?vue&type=template&id=658c8cb9& ***!
+  \***************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Recipe_vue_vue_type_template_id_658c8cb9___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Recipe.vue?vue&type=template&id=658c8cb9& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Recipe.vue?vue&type=template&id=658c8cb9&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Recipe_vue_vue_type_template_id_658c8cb9___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Recipe_vue_vue_type_template_id_658c8cb9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Review.vue":
+/*!********************************************!*\
+  !*** ./resources/js/components/Review.vue ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Review_vue_vue_type_template_id_097b3983___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Review.vue?vue&type=template&id=097b3983& */ "./resources/js/components/Review.vue?vue&type=template&id=097b3983&");
+/* harmony import */ var _Review_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Review.vue?vue&type=script&lang=js& */ "./resources/js/components/Review.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Review_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Review_vue_vue_type_template_id_097b3983___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Review_vue_vue_type_template_id_097b3983___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Review.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Review.vue?vue&type=script&lang=js&":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/Review.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Review_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Review.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Review.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Review_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Review.vue?vue&type=template&id=097b3983&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/Review.vue?vue&type=template&id=097b3983& ***!
+  \***************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Review_vue_vue_type_template_id_097b3983___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Review.vue?vue&type=template&id=097b3983& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Review.vue?vue&type=template&id=097b3983&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Review_vue_vue_type_template_id_097b3983___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Review_vue_vue_type_template_id_097b3983___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -63184,6 +63653,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/pages/SingleRecipe.vue":
+/*!*********************************************!*\
+  !*** ./resources/js/pages/SingleRecipe.vue ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _SingleRecipe_vue_vue_type_template_id_6b692eff___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SingleRecipe.vue?vue&type=template&id=6b692eff& */ "./resources/js/pages/SingleRecipe.vue?vue&type=template&id=6b692eff&");
+/* harmony import */ var _SingleRecipe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SingleRecipe.vue?vue&type=script&lang=js& */ "./resources/js/pages/SingleRecipe.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _SingleRecipe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SingleRecipe_vue_vue_type_template_id_6b692eff___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _SingleRecipe_vue_vue_type_template_id_6b692eff___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/pages/SingleRecipe.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/pages/SingleRecipe.vue?vue&type=script&lang=js&":
+/*!**********************************************************************!*\
+  !*** ./resources/js/pages/SingleRecipe.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SingleRecipe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./SingleRecipe.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/SingleRecipe.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SingleRecipe_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/pages/SingleRecipe.vue?vue&type=template&id=6b692eff&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/pages/SingleRecipe.vue?vue&type=template&id=6b692eff& ***!
+  \****************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SingleRecipe_vue_vue_type_template_id_6b692eff___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./SingleRecipe.vue?vue&type=template&id=6b692eff& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/SingleRecipe.vue?vue&type=template&id=6b692eff&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SingleRecipe_vue_vue_type_template_id_6b692eff___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SingleRecipe_vue_vue_type_template_id_6b692eff___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/routes.js":
 /*!********************************!*\
   !*** ./resources/js/routes.js ***!
@@ -63205,6 +63743,11 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
     path: '/',
     name: 'index',
     component: vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('index', __webpack_require__(/*! ./pages/Index.vue */ "./resources/js/pages/Index.vue")["default"])
+  }, {
+    path: '/recipe/:recipeId',
+    name: 'single-recipe',
+    component: vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('single-recipe', __webpack_require__(/*! ./pages/SingleRecipe.vue */ "./resources/js/pages/SingleRecipe.vue")["default"]),
+    props: true
   }, {
     path: '/login',
     name: 'login',

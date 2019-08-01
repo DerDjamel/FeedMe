@@ -12,6 +12,12 @@ export default new VueRouter({
             component: Vue.component('index', require('./pages/Index.vue').default),
         },
         {
+            path: '/recipe/:recipeId',
+            name: 'single-recipe',
+            component: Vue.component('single-recipe', require('./pages/SingleRecipe.vue').default),
+            props: true
+        },
+        {
             path: '/login',
             name: 'login',
             component: Vue.component('login', require('./pages/Login.vue').default),

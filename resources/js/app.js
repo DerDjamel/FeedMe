@@ -53,7 +53,9 @@ Router.beforeEach((to, from, next) => {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('main-navigation', require('./components/MainNavigation.vue').default)
+Vue.component('main-navigation', require('./components/MainNavigation.vue').default);
+Vue.component('recipe', require('./components/Recipe.vue').default);
+Vue.component('review', require('./components/Review.vue').default);
 
 const app = new Vue({
     el      : '#app',

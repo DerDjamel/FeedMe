@@ -24,18 +24,11 @@ class Review extends JsonResource
             'id'        => $this->id,
             'content'   => $this->content,
             'user'      => new UserResource(User::find($this->user_id)),
-            'can'       => $this->permissions(),
+            'can'       => $this->when(auth()->check(), $this->permissions()),
         ];
     }
 
     public function permissions(){
-        $permissions =[
-            'view'      => true,
-            'create'    => false,
-            'update'    => false,
-            'delete'    => false,
-        ];
-
         if(auth()->check()){
             return [
                 'view'      => auth()->user()->can('viewAny', $this->resource),
@@ -44,7 +37,5 @@ class Review extends JsonResource
                 'delete'    => auth()->user()->can('delete', $this->resource),
             ];
         } 
-
-        return $permissions;
     }
 }

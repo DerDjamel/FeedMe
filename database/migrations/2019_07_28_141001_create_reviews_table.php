@@ -25,7 +25,7 @@ class CreateReviewsTable extends Migration
 
             /* recipe relationship */
             $table->unsignedBigInteger('recipe_id');
-            $table->foreign('recipe_id')->references('id')->on('recipes');
+            $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
         });
     }
 

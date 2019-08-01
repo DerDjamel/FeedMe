@@ -41,7 +41,7 @@ class RecipePolicy
      */
     public function create(User $user)
     {
-        return auth()->check();
+        return auth('api')->check();
     }
 
     /**

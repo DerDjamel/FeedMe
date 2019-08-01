@@ -28,27 +28,18 @@ class Recipe extends JsonResource
             'content'   => $this->content,
             'user'      => new UserResource(User::find($this->user_id)),
             'reviews'   => ReviewResource::collection($this->reviews),
-            'can'       => $this->permissions(),
+            'can'       => $this->when(auth('api')->check(), $this->permissions()),
         ];
     }
 
     public function permissions(){
-        $permissions = [
-            'view'      => true,
-            'create'    => false,
-            'update'    => false,
-            'delete'    => false,
-        ];
-
-        if(auth()->check()){
+        if(auth('api')->check()){
             return [
-                'view'      => auth()->user()->can('viewAny', $this->resource),
-                'create'    => auth()->user()->can('create', $this->resource),
-                'update'    => auth()->user()->can('update', $this->resource),
-                'delete'    => auth()->user()->can('delete', $this->resource),
+                'view'      => auth('api')->user()->can('viewAny', $this->resource),
+                'create'    => auth('api')->user()->can('create', $this->resource),
+                'update'    => auth('api')->user()->can('update', $this->resource),
+                'delete'    => auth('api')->user()->can('delete', $this->resource),
             ];
         } 
-
-        return $permissions;
     }
 }
